@@ -1,0 +1,12 @@
+{
+    "version": 1,
+    "jobs": [
+        {
+        "type": "docker-image",
+        "name": "build",
+        "image": "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest",
+        "command": ["echo", "hello world"],
+        "resources": { "limits": { "cpu": 1, "memory": 1024 } }
+        }
+    ]
+}
