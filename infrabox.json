@@ -5,7 +5,7 @@
         "type": "docker-image",
         "name": "build",
         "image": "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest",
-        "command": ["echo", "hello world"],
+        "command": ["./build.sh"],
         "resources": { "limits": { "cpu": 1, "memory": 1024 } },
         "registries": [{
             "type": "ecr",
@@ -14,7 +14,29 @@
             "access_key_id": { "$secret": "AWS_ACCESS_KEY_ID" },
             "secret_access_key": { "$secret": "AWS_SECRET_ACCESS_KEY" },
             "region": "eu-central-1"
-        }]        
+        }]
+        },
+        {
+        "type": "docker-image",
+        "name": "deploy",
+        "depends_on": [ "build" ],
+        "image": "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest",
+        "command": [ "./deploy.sh" ],
+        "environment": {
+            "DEPLOY_HOST": "account.hanatrial.ondemand.com",
+            "DEPLOY_ACCOUNT": { "$secret": "NEO_ACCOUNT" },
+            "DEPLOY_USER": { "$secret": "NEO_USER" },
+            "DEPLOY_PASSWORD": { "$secret": "NEO_PASSWORD" }
+        }
+        "resources": { "limits": { "cpu": 1, "memory": 1024 } },
+        "registries": [{
+            "type": "ecr",
+            "host": "914139574225.dkr.ecr.eu-central-1.amazonaws.com",
+            "repository": "cd-eval",
+            "access_key_id": { "$secret": "AWS_ACCESS_KEY_ID" },
+            "secret_access_key": { "$secret": "AWS_SECRET_ACCESS_KEY" },
+            "region": "eu-central-1"
+        }]
         }
     ]
 }
