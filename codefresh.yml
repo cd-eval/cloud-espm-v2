@@ -6,14 +6,14 @@ steps:
     image: 914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest
     working_directory: ./
     commands:
-      - export PATH=./node_modules/.bin:${PATH}
       - sed -e 's/webshop/webshopcodefresh/g' -i mta.yaml
-      - java -jar /opt/mta/mta.jar --mtar result.mtar --build-target=NEO build
+      - export PATH=./node_modules/.bin:${PATH}
+      - mta.sh --mtar result.mtar --build-target=NEO build
 
   Deploy_NEO:
     title: Deploy
     image: 914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest
     working_directory: ./
     commands:
-      - /usr/local/tools/neo-java-web-sdk/tools/neo.sh deploy-mta --host "${{NEO_DEPLOY_HOST}}" --account "${{NEO_DEPLOY_ACCOUNT}}" --synchronous --user "${{NEO_DEPLOY_USER}}" --password "${{NEO_DEPLOY_PASSWORD}}" --source "result.mtar"
+      - neo.sh deploy-mta --host "${{NEO_DEPLOY_HOST}}" --account "${{NEO_DEPLOY_ACCOUNT}}" --synchronous --user "${{NEO_DEPLOY_USER}}" --password "${{NEO_DEPLOY_PASSWORD}}" --source "result.mtar"
       - echo "Application running at https://webshopcodefresh-${{NEO_DEPLOY_ACCOUNT}}.dispatcher.hanatrial.ondemand.com"
