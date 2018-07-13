@@ -1,0 +1,63 @@
+# First try of a Workflows using Argo
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: argo-
+spec:
+  entrypoint: build-deploy
+  templates:
+  - name: build-deploy
+    steps:
+      # Prepare: Install git and sync projekt into the pod.
+    - - name: prepare
+        template: prepare-template
+    - - name: build
+        template: build-template
+        arguments:
+          artifacts:
+          - name: project
+            from: "{{steps.prepare.outputs.artifacts.result}}"
+    - - name: deploy
+        template: deploy-template
+        arguments:
+          artifacts:
+          - name: buildresult
+            from: "{{steps.build.outputs.artifacts.result}}"
+          - name: project
+            from: "{{steps.prepare.outputs.artifacts.result}}"
+
+  - name: prepare-template
+    container:
+      image: "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest"
+      command: [sh, -c]
+      args: ["apt-get update; apt-get install -y git; mkdir /git; cd git; git clone https://github.com/cd-eval/cloud-espm-v2.git"]
+    outputs:
+      artifacts:
+      - name: result
+        path: /git # location of the Project
+
+  - name: build-template
+    inputs:
+      artifacts:
+      - name: project
+        path: /git
+    container:
+      image: "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest"
+      command: [sh, -c]
+      #args: ["ls / ; ls /git; sleep 600"]
+      args: ["/git/cloud-espm-v2/argo/build.sh"]
+    outputs:
+      artifacts:
+      - name: result
+        path: /argo # where to place the MTA.
+
+  - name: deploy-template
+    inputs:
+      artifacts:
+      - name: buildresult
+        path: /argo
+      - name: project
+        path: /git
+    container:
+      image: "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest"
+      command: ["/git/cloud-espm-v2/argo/deploy.sh"]
