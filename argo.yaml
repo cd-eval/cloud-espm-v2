@@ -5,6 +5,10 @@ metadata:
   generateName: argo-
 spec:
   entrypoint: build-deploy
+  volumes:   # example for getting some secret into the template via filesystem.
+  - name: somesecret
+    secret:
+      secretName: default-token-6xrc4
   templates:
   - name: build-deploy
     steps:
@@ -44,8 +48,7 @@ spec:
     container:
       image: "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest"
       command: [sh, -c]
-      #args: ["ls / ; ls /git; sleep 600"]
-      args: ["/git/cloud-espm-v2/argo/build.sh"]
+      args: ["ls /git; ls -al /git/cloud-espm-v2/argo/ ; /git/cloud-espm-v2/argo/build.sh"]
     outputs:
       artifacts:
       - name: result
@@ -59,5 +62,33 @@ spec:
       - name: project
         path: /git
     container:
+      volumeMounts:   # example for getting some secret into the template via filesystem.
+      - name: somesecret
+        mountPath: "/key"
+        readOnly: true
       image: "914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest"
-      command: ["/git/cloud-espm-v2/argo/deploy.sh"]
+      command: [sh, -c]
+      args: ["ls /argo/ ; ls -al /key ; echo $NEO_DEPLOY_HOST ; /git/cloud-espm-v2/argo/deploy.sh"]
+      env:   # get secret into environment variables. Secret is created with 
+             #  kubectl create secret generic neo-deploy-account ....
+        - name: NEO_DEPLOY_HOST  # name of env var
+          valueFrom: 
+            secretKeyRef:
+              name: "neo-deploy-account1"
+              key: "host"
+        - name: NEO_DEPLOY_ACCOUNT  # name of env var
+          valueFrom:
+            secretKeyRef:
+              name: "neo-deploy-account1"
+              key: "subaccount"
+        - name: NEO_DEPLOY_USER  # name of env var
+          valueFrom:
+            secretKeyRef:
+              name: "neo-deploy-account1"
+              key: "user"
+        - name: NEO_DEPLOY_PASSWORD  # name of env var
+          valueFrom:
+            secretKeyRef:
+              name: "neo-deploy-account1"
+              key: "password"
+    
