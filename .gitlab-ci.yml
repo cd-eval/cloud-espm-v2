@@ -1,5 +1,5 @@
 test:
-    image: 914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest
+    image: alxsap/mkdocs
     script:
         - 'pwd'
         - 'whoami'
