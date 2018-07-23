@@ -1,3 +1,6 @@
 test:
+    image: 914139574225.dkr.ecr.eu-central-1.amazonaws.com/cd-eval:latest
     script:
-        - 'echo Hello5-github'
+        - 'pwd'
+        - 'whoami'
+        - 'ls -la'
