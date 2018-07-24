@@ -22,8 +22,9 @@ mtabuild:
       - mta.sh --mtar result.mtar --build-target=NEO build
       - 'ls -la'
     artifacts:
+        name: mtabuild
         paths:
-            - results.mtar
+            - result.mtar
             - package-lock.json
 
 
