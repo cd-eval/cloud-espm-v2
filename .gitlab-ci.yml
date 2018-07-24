@@ -1,5 +1,11 @@
+stages:
+    - info
+    - build
+    - deploy
+
 info:
     image: alxsap/mta-build-deploy
+    stage: info
     script:
         - 'pwd'
         - 'whoami'
@@ -9,6 +15,7 @@ info:
 
 mtabuild:
     image: alxsap/mta-build-deploy
+    stage: build
     script:
       - sed -e 's/webshop/webshopgitlab/g' -i mta.yaml
       - export PATH=./node_modules/.bin:${PATH}
@@ -16,8 +23,7 @@ mtabuild:
 
 neodeploy:
     image: alxsap/mta-build-deploy
-    dependencies:
-        - mtabuild
+    stage: deploy
     script:
       - neo.sh deploy-mta --host "${{NEO_DEPLOY_HOST}}" --account "${{NEO_DEPLOY_ACCOUNT}}" --synchronous --user "${{NEO_DEPLOY_USER}}" --password "${{NEO_DEPLOY_PASSWORD}}" --source "result.mtar"
       - echo "Application running at https://webshopcodefresh-${{NEO_DEPLOY_ACCOUNT}}.dispatcher.${{NEO_DEPLOY_HOST}}/index.html"
