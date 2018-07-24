@@ -35,15 +35,15 @@ neodeploy:
         - mtabuild
     script:
       - 'ls -la'
-      - neo.sh deploy-mta --host "${{NEO_DEPLOY_HOST}}" --account "${{NEO_DEPLOY_ACCOUNT}}" --synchronous --user "${{NEO_DEPLOY_USER}}" --password "${{NEO_DEPLOY_PASSWORD}}" --source "result.mtar"
-      - echo "Application running at https://webshopcodefresh-${{NEO_DEPLOY_ACCOUNT}}.dispatcher.${{NEO_DEPLOY_HOST}}/index.html"
+      - neo.sh deploy-mta --host "${NEO_DEPLOY_HOST}" --account "${NEO_DEPLOY_ACCOUNT}" --synchronous --user "${NEO_DEPLOY_USER}" --password "${NEO_DEPLOY_PASSWORD}" --source "result.mtar"
+      - echo "Application running at https://webshopcodefresh-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
       - 'ls -la'
 
 info2:
     image: alxsap/mta-build-deploy
     stage: deploy
     dependencies:
-        - mtabuild
+        - neodeploy
     script:
         - 'pwd'
         - 'whoami'
