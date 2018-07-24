@@ -4,5 +4,5 @@ test:
         - 'pwd'
         - 'whoami'
         - 'ls -la'
-        - 'mta.sh'
-        - 'neo.sh'
+        - 'mta.sh || true'
+        - 'neo.sh || true'
