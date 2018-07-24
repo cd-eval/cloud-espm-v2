@@ -6,7 +6,6 @@ mtabuild:
       - export PATH=./node_modules/.bin:${PATH}
       - mta.sh --mtar result.mtar --build-target=NEO build
     artifacts:
-        name: mtabuild
         paths:
           - result.mtar
 
