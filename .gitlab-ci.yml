@@ -35,7 +35,7 @@ neodeploy:
     script:
       - 'ls -la'
       - neo.sh deploy-mta --host "${NEO_DEPLOY_HOST}" --account "${NEO_DEPLOY_ACCOUNT}" --synchronous --user "${NEO_DEPLOY_USER}" --password "${NEO_DEPLOY_PASSWORD}" --source "result.mtar"
-      - echo "Application running at https://webshopcodefresh-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
+      - echo "Application running at https://webshopgitlab-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
       - 'ls -la'
     artifacts:
         name: deploylogs
