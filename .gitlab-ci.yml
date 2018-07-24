@@ -21,6 +21,11 @@ mtabuild:
       - export PATH=./node_modules/.bin:${PATH}
       - mta.sh --mtar result.mtar --build-target=NEO build
       - 'ls -la'
+    artifacts:
+        paths:
+            - results.mtar
+            - package-lock.json
+
 
 neodeploy:
     image: alxsap/mta-build-deploy
