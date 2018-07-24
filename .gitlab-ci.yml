@@ -20,7 +20,7 @@ build:mta_cf:
         paths:
           - result.mtar
 
-neodeploy:
+deploy:neo:
     image: alxsap/mta-build-deploy
     stage: deploy
     dependencies:
@@ -29,7 +29,7 @@ neodeploy:
       - neo.sh deploy-mta --host "${NEO_DEPLOY_HOST}" --account "${NEO_DEPLOY_ACCOUNT}" --synchronous --user "${NEO_DEPLOY_USER}" --password "${NEO_DEPLOY_PASSWORD}" --source "result.mtar"
       - echo "Application running at https://webshopgitlab-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
 
-cfdeploy:
+deploy:cf:
     image: alxsap/mta-build-deploy:v2
     stage: deploy
     dependencies:
