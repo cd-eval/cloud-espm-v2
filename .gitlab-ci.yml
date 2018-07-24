@@ -1,6 +1,8 @@
 test:
-    image: alxsap/mkdocs
+    image: alxsap/mta-build-deploy
     script:
         - 'pwd'
         - 'whoami'
         - 'ls -la'
+        - 'mta.sh'
+        - 'neo.sh'
