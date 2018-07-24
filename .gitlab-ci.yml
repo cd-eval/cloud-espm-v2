@@ -23,9 +23,9 @@ mtabuild:
       - 'ls -la'
     artifacts:
         name: mtabuild
-        paths:
-            - result.mtar
-            - package-lock.json
+        untracked: true
+        when: always
+        expire_in: 1 week
 
 
 neodeploy:
@@ -38,6 +38,8 @@ neodeploy:
       - neo.sh deploy-mta --host "${NEO_DEPLOY_HOST}" --account "${NEO_DEPLOY_ACCOUNT}" --synchronous --user "${NEO_DEPLOY_USER}" --password "${NEO_DEPLOY_PASSWORD}" --source "result.mtar"
       - echo "Application running at https://webshopcodefresh-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
       - 'ls -la'
+    artifacts:
+        name: deloylogs
 
 info2:
     image: alxsap/mta-build-deploy
