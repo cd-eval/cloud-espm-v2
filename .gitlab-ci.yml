@@ -23,10 +23,9 @@ mtabuild:
       - 'ls -la'
     artifacts:
         name: mtabuild
-        untracked: true
-        when: always
-        expire_in: 1 week
-
+        paths:
+          - result.mtar
+          - package-lock.json
 
 neodeploy:
     image: alxsap/mta-build-deploy
@@ -40,12 +39,15 @@ neodeploy:
       - 'ls -la'
     artifacts:
         name: deloylogs
+        untracked: true
+        when: always
+        expire_in: 1 week
 
 info2:
     image: alxsap/mta-build-deploy
     stage: deploy
     dependencies:
-        - neodeploy
+        - deloylogs
     script:
         - 'pwd'
         - 'whoami'
