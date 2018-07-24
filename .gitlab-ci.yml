@@ -19,7 +19,7 @@ neodeploy:
       - echo "Application running at https://webshopgitlab-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
 
 cfdeploy:
-    image: alxsap/mta-build-deploy
+    image: alxsap/mta-build-deploy:v2
     stage: deploy
     dependencies:
         - mtabuild
