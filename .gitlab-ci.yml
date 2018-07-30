@@ -1,4 +1,4 @@
-build:mta_cf:
+build_mta:
     image: alxsap/mta-build-deploy
     stage: build
     script:
@@ -10,11 +10,11 @@ build:mta_cf:
         paths:
           - result.mtar
 
-deploy:cf:
+deploy_cf
     image: alxsap/mta-build-deploy:v2
     stage: deploy
     dependencies:
-        - build:mta_cf
+        - build_mta
     script:
       - cf --version
       - cf login -a "${CF_ENDPOINT}" -u "${CF_USER}" -p "${CF_PASSWORD}" -o "${CF_ORG}" -s "${CF_SPACE}"
