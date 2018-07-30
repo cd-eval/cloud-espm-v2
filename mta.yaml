@@ -10,7 +10,7 @@ modules:
     type: html5
     path: .
     parameters:
-        memory: 128M
+        memory: 512M
         version: 1.0.0-${timestamp}
     build-parameters:
         builder: grunt
