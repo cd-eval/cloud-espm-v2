@@ -10,7 +10,7 @@ build_mta:
         paths:
           - result.mtar
 
-deploy_cf
+deploy_cf:
     image: alxsap/mta-build-deploy:v2
     stage: deploy
     dependencies:
