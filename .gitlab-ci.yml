@@ -14,6 +14,7 @@ build:mta_cf:
     stage: build
     script:
       - sed -e 's/webshop/webshopgitlab/g' -i mta.yaml
+      - sed -e 's/espm/espmgitlab/g' -i mta.yaml
       - export PATH=./node_modules/.bin:${PATH}
       - mta.sh --mtar result.mtar --build-target=CF build
     artifacts:
