@@ -3,20 +3,9 @@ build:mta_neo:
     stage: build
     script:
       - sed -e 's/webshop/webshopgitlab/g' -i mta.yaml
-      - export PATH=./node_modules/.bin:${PATH}
-      - mta.sh --mtar result.mtar --build-target=NEO build
-    artifacts:
-        paths:
-          - result.mtar
-
-build:mta_cf:
-    image: alxsap/mta-build-deploy
-    stage: build
-    script:
-      - sed -e 's/webshop/webshopgitlab/g' -i mta.yaml
       - sed -e 's/espm/espmgitlab/g' -i mta.yaml
       - export PATH=./node_modules/.bin:${PATH}
-      - mta.sh --mtar result.mtar --build-target=CF build
+      - mta.sh --mtar result.mtar --build-target=NEO build
     artifacts:
         paths:
           - result.mtar
@@ -29,14 +18,3 @@ deploy:neo:
     script:
       - neo.sh deploy-mta --host "${NEO_DEPLOY_HOST}" --account "${NEO_DEPLOY_ACCOUNT}" --synchronous --user "${NEO_DEPLOY_USER}" --password "${NEO_DEPLOY_PASSWORD}" --source "result.mtar"
       - echo "Application running at https://webshopgitlab-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
-
-deploy:cf:
-    image: alxsap/mta-build-deploy:v2
-    stage: deploy
-    dependencies:
-        - build:mta_cf
-    script:
-      - cf --version
-      - cf login -a "${CF_ENDPOINT}" -u "${CF_USER}" -p "${CF_PASSWORD}" -o "${CF_ORG}" -s "${CF_SPACE}"
-      - cf deploy result.mtar -f -t 30
-      - echo "Application running at ..."
