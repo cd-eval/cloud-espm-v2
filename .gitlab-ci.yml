@@ -1,4 +1,4 @@
-build:mta_neo:
+build_mta:
     image: alxsap/mta-build-deploy
     stage: build
     script:
@@ -10,11 +10,11 @@ build:mta_neo:
         paths:
           - result.mtar
 
-deploy:neo:
+deploy_neo:
     image: alxsap/mta-build-deploy
     stage: deploy
     dependencies:
-        - build:mta_neo
+        - build_mta
     script:
       - neo.sh deploy-mta --host "${NEO_DEPLOY_HOST}" --account "${NEO_DEPLOY_ACCOUNT}" --synchronous --user "${NEO_DEPLOY_USER}" --password "${NEO_DEPLOY_PASSWORD}" --source "result.mtar"
       - echo "Application running at https://webshopgitlab-${NEO_DEPLOY_ACCOUNT}.dispatcher.${NEO_DEPLOY_HOST}/index.html"
