@@ -10,7 +10,8 @@ modules:
     type: html5
     path: .
     parameters:
-       version: 1.0.0-${timestamp}
+        memory: 128M
+        version: 1.0.0-${timestamp}
     build-parameters:
-      builder: grunt
-      build-result: dist
+        builder: grunt
+        build-result: dist
