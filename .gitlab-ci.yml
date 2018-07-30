@@ -38,5 +38,5 @@ deploy:cf:
     script:
       - cf --version
       - cf login -a "${CF_ENDPOINT}" -u "${CF_USER}" -p "${CF_PASSWORD}" -o "${CF_ORG}" -s "${CF_SPACE}"
-      - cf deploy result.mtar -f
+      - cf deploy result.mtar -f -t 30
       - echo "Application running at ..."
