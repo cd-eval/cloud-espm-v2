@@ -1,5 +1,5 @@
 build_mta:
-    image: alxsap/mta-build-deploy
+    image: test-docker-repo.docker.repositories.sap.ondemand.com/mta-build-deploy:latest
     stage: build
     script:
       - sed -e 's/webshop/webshopgitlab/g' -i mta.yaml
@@ -11,7 +11,7 @@ build_mta:
           - result.mtar
 
 deploy_neo:
-    image: alxsap/mta-build-deploy
+    image: test-docker-repo.docker.repositories.sap.ondemand.com/mta-build-deploy:latest
     stage: deploy
     dependencies:
         - build_mta
